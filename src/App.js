@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useReducer} from 'react'
+// import ComponentA from './components/ComponentA';
+import GetPostTwo from './components/GetPostTwo';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export const countContext = React.createContext();
+
+const initialState = 1;
+const reducer = (state,action) => {
+  switch(action){
+    case 'increment':
+      return state + 1;
+    case 'decrement':
+      return state - 1;
+    default: 
+      return state;
+  }
 }
 
-export default App;
+
+export default function App() {
+  const [count,dispatch] = useReducer(reducer,initialState)
+  return (
+    <>
+      <p>{count}</p>
+      <countContext.Provider value={{ countDispatch: dispatch }}>
+        <GetPostTwo />
+      </countContext.Provider>
+    </>
+  )
+}
